@@ -17,7 +17,7 @@ More information can be found on [Gialloblu Open Analytics Lab](https://pc1913-p
 
 ```bash
 git clone https://github.com/parmacalcio1913/players-matcher.git
-cd player-matcher
+cd players-matcher
 ```
 
 2. **Create a virtual environment and install the packages**
