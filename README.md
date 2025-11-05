@@ -16,7 +16,7 @@ More information can be found on [Gialloblu Open Analytics Lab](https://pc1913-p
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/parmacalcio1913/player-matcher.git
+git clone https://github.com/parmacalcio1913/players-matcher.git
 cd player-matcher
 ```
 
