@@ -1,0 +1,18 @@
+Player Matcher
+Copyright 2024 Parma Calcio 1913
+
+This product includes software and techniques adapted from third-party sources.
+
+Third-Party Libraries
+---------------------
+
+sparse_dot_topn — Fast sparse matrix multiplication (Apache-2.0 License).
+Copyright (c) ING Bank N.V.
+See: https://github.com/ing-bank/sparse_dot_topn
+
+Algorithmic Inspiration
+-----------------------
+
+string_grouper — TF-IDF based string matching (MIT License).
+Copyright (c) Chris van den Berg.
+See: https://github.com/Bergvca/string_grouper

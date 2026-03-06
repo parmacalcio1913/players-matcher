@@ -93,6 +93,10 @@ matcher = BidirectionalPlayerMatcher(
   - `3`: Balanced (recommended default)
   - `4-5`: More strict, better for longer names
 
+## Architecture
+
+Open [`architecture.html`](architecture.html) in a browser to explore the C4 architecture diagrams (System Context, Container, Dynamic flow).
+
 ## Algorithm Details
 For all the implementation details, visit our [blog](https://pc1913-perf-analytics.notion.site/Matching-players-across-different-providers-294a95fcfc3280638509dfc3b0e8b8b6).
 
@@ -104,6 +108,10 @@ Contributions are welcome! Please:
 2. Create a feature branch
 3. Make your changes with tests
 4. Submit a pull request
+
+## License
+
+[Apache License 2.0](LICENSE) — see [NOTICE](NOTICE) for third-party attribution.
 
 ## Acknowledgments
 Our solution is largely based on:
