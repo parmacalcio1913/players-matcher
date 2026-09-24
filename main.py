@@ -207,6 +207,11 @@ class BidirectionalPlayerMatcher:
             min_similarity: Minimum similarity threshold
             ngram_size: Size of n-grams for matching
         """
+        if provider_a.name == provider_b.name:
+            raise ValueError(
+                f"provider_a and provider_b must have different names (both are '{provider_a.name}'): "
+                "the names are used as suffixes for the output columns."
+            )
         self.provider_a = provider_a
         self.provider_b = provider_b
         self.matcher = TfidfMatcher(ngram_size=ngram_size, min_similarity=min_similarity)
@@ -319,20 +324,32 @@ class BidirectionalPlayerMatcher:
 
         # Add the ID of the other provider
         df_a[f'tmp_{self.provider_b.player_id_col}_{self.provider_b.name}'] = df_a[self.provider_a.player_id_col].map(mutual_matches)
-        result = df_a.merge(
-            df_b,
-            left_on=f'tmp_{self.provider_b.player_id_col}_{self.provider_b.name}',
-            right_on=self.provider_b.player_id_col,
+        # Name the output columns explicitly. pandas only applies merge suffixes to
+        # column names present in both frames, so providers with different id or
+        # name columns (e.g. 'id' vs 'scoutastic_id') used to raise a KeyError here.
+        a_id, a_name = self.provider_a.player_id_col, self.provider_a.player_name_col
+        b_id, b_name = self.provider_b.player_id_col, self.provider_b.player_name_col
+        left = df_a[[a_id, a_name, f'tmp_{b_id}_{self.provider_b.name}']].rename(columns={
+            a_id: f'{a_id}_{self.provider_a.name}',
+            a_name: f'{a_name}_{self.provider_a.name}',
+        })
+        right = df_b[[b_id, b_name]].rename(columns={
+            b_id: f'{b_id}_{self.provider_b.name}',
+            b_name: f'{b_name}_{self.provider_b.name}',
+        })
+        result = left.merge(
+            right,
+            left_on=f'tmp_{b_id}_{self.provider_b.name}',
+            right_on=f'{b_id}_{self.provider_b.name}',
             how='left',
-            suffixes=('_' + self.provider_a.name, '_' + self.provider_b.name)
         )
         # only keep the columns of interest
         result = result[
             [
-                f'{self.provider_a.player_id_col}_{self.provider_a.name}',
-                f'{self.provider_a.player_name_col}_{self.provider_a.name}',
-                f'{self.provider_b.player_id_col}_{self.provider_b.name}',
-                f'{self.provider_b.player_name_col}_{self.provider_b.name}'
+                f'{a_id}_{self.provider_a.name}',
+                f'{a_name}_{self.provider_a.name}',
+                f'{b_id}_{self.provider_b.name}',
+                f'{b_name}_{self.provider_b.name}'
             ]
         ]
 
